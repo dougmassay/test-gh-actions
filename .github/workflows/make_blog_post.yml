@@ -10,16 +10,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-          with:
-            ref: master
-            path: main
+        with:
+          ref: master
+          path: main
 
       - name: Checkout website
         uses: actions/checkout@v2
-          with:
-            repository: dougmassay/dougmassay.github.io
-            ref: master
-            path: website
+        with:
+          repository: dougmassay/dougmassay.github.io
+          ref: master
+          path: website
 
       - name: Get Release details
         run: |
@@ -33,12 +33,12 @@ jobs:
 
       - name: Commit post to blog
         uses: stefanzweifel/git-auto-commit-action@v4
-          with:
-            repository: $GITHUB_WORKSPACE/website
-            commit_user_name: My GitHub Actions Bot
-            commit_user_email: my-github-actions-bot@example.org
-            commit_author: Author <actions@github.com>
-            commit_message: Auto create release blog post
-            branch: master
+        with:
+          repository: $GITHUB_WORKSPACE/website
+          commit_user_name: My GitHub Actions Bot
+          commit_user_email: my-github-actions-bot@example.org
+          commit_author: Author <actions@github.com>
+          commit_message: Auto create release blog post
+          branch: master
 
   
