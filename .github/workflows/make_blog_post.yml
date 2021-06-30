@@ -1,0 +1,16 @@
+name: Make Blog Post
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Release details
+        run: |
+          echo ${{ github.event.release.tag_name }}
+          echo ${{ github.event.release.description }}
+          echo ${{ github.event.release.body }}
+  
