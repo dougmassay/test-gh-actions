@@ -45,7 +45,7 @@ def main(argv):
     body = os.path.join(path, 'contents.txt')
     with codecs.open(fi, 'r', 'utf-8') as f:
         details = json.load(f)
-    with codecs.open(fi, 'r', 'utf-8') as f:
+    with codecs.open(body, 'r', 'utf-8') as f:
         contents = f.read()
 
     date = parser.parse(details['published_date'])
@@ -56,7 +56,7 @@ def main(argv):
     md = POST.format(title, details['published_date'], 'Sigil', contents)
     print(md)
     with codecs.open(filename, 'w', 'utf-8') as f:
-        f.write()
+        f.write(md)
 
     '''
     try:
