@@ -19,7 +19,7 @@ jobs:
           echo '{"tag_name": "${{ github.event.release.tag_name }}",' > details.txt
           echo '"release_name": "${{ github.event.release.name }}",' >> details.txt
           echo '"published_date": "${{ github.event.release.published_at }}"}' >> details.txt
-          echo ${{ github.event.release.body }}" > contents.txt
+          echo "${{ github.event.release.body }}" > contents.txt
           python make_post.py -p $GITHUB_WORKSPACE
           rm details.txt
           rm body.txt
