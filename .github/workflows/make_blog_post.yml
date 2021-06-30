@@ -28,7 +28,7 @@ jobs:
           echo '"release_name": "${{ github.event.release.name }}",' >> details.txt
           echo '"published_date": "${{ github.event.release.published_at }}"}' >> details.txt
           echo "${{ github.event.release.body }}" > contents.txt
-          python $GITHUB_WORKSPACE/main/.github/workflows/make_post.py -p $GITHUB_WORKSPACE/main
+          python $GITHUB_WORKSPACE/main/.github/workflows/make_post.py -p $GITHUB_WORKSPACE
           mv ./*.md $GITHUB_WORKSPACE/website/_posts
 
       - name: Commit post to blog
