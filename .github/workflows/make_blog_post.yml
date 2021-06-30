@@ -2,7 +2,7 @@ name: Make Blog Post
 
 on:
   release:
-    types: [published]
+    types: [published, edited]
 
 jobs:
   post:
