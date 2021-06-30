@@ -43,9 +43,9 @@ def main(argv):
 
     fi = os.path.join(path, 'details.txt')
     body = os.path.join(path, 'contents.txt')
-    with codecs.open(fi, 'r' 'utf-8') as f:
+    with codecs.open(fi, 'r', 'utf-8') as f:
         details = json.load(f)
-    with codecs.open(fi, 'r' 'utf-8') as f:
+    with codecs.open(fi, 'r', 'utf-8') as f:
         contents = f.read()
 
     date = parser.parse(details['published_date'])
