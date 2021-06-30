@@ -51,7 +51,7 @@ def main(argv):
     date = parser.parse(details['published_date'])
     title = details['release_name']
 
-    filename = os.path.join(path, _posts, date.strftime('%Y-%m-%d') + '-' + title.lower().replace(' ', '-') + '.md')
+    filename = os.path.join(path, date.strftime('%Y-%m-%d') + '-' + title.lower().replace(' ', '-') + '.md')
     print(filename)
     md = POST.format(title, details['published_date'], 'Sigil', content)
     print(md)
