@@ -11,6 +11,6 @@ jobs:
       - name: Get Release details
         run: |
           echo ${{ github.event.release.tag_name }}
-          echo ${{ github.event.release.description }}
+          echo ${{ github.event.release.name }}
           echo ${{ github.event.release.body }}
   
