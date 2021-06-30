@@ -28,13 +28,15 @@ jobs:
           echo '"release_name": "${{ github.event.release.name }}",' >> details.txt
           echo '"published_date": "${{ github.event.release.published_at }}"}' >> details.txt
           echo "${{ github.event.release.body }}" > contents.txt
+          echo "$GITHUB_WORKSPACE/main"
+          echo "$GITHUB_WORKSPACE/website"
           python $GITHUB_WORKSPACE/main/.github/workflows/make_post.py -p $GITHUB_WORKSPACE
           mv ./*.md $GITHUB_WORKSPACE/website/_posts
 
       - name: Commit post to blog
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          repository: $GITHUB_WORKSPACE/website
+          repository: website
           commit_user_name: My GitHub Actions Bot
           commit_user_email: my-github-actions-bot@example.org
           commit_author: Author <actions@github.com>
