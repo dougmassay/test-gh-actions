@@ -53,7 +53,7 @@ def main(argv):
 
     filename = os.path.join(path, date.strftime('%Y-%m-%d') + '-' + title.lower().replace(' ', '-') + '.md')
     print(filename)
-    md = POST.format(title, details['published_date'], 'Sigil', content)
+    md = POST.format(title, details['published_date'], 'Sigil', contents)
     print(md)
     with codecs.open(filename, 'w', 'utf-8') as f:
         f.write()
