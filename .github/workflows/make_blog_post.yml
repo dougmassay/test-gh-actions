@@ -17,6 +17,7 @@ jobs:
       - name: Checkout website
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.WEBSITE_SECRET_PAT }}
           repository: dougmassay/dougmassay.github.io
           ref: ${{ github.head_ref }}
           path: website
@@ -36,11 +37,10 @@ jobs:
       - name: Commit post to blog
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          token: ${{ secrets.PAT }}
           repository: website
           commit_user_name: My GitHub Actions Bot
           commit_user_email: my-github-actions-bot@example.org
-          #commit_author: Author <actions@github.com>
+          commit_author: Author <actions@github.com>
           commit_message: Auto create release blog post
           branch: master
 
