@@ -25,6 +25,7 @@ jobs:
       - name: Get Release details
         run: |
           pip install python-dateutil
+          echo "${{ github.event_path }}"
           echo '{"tag_name": "${{ github.event.release.tag_name }}",' > details.txt
           echo '"release_name": "${{ github.event.release.name }}",' >> details.txt
           echo '"published_date": "${{ github.event.release.published_at }}"}' >> details.txt
