@@ -26,13 +26,7 @@ jobs:
         run: |
           pip install python-dateutil
           echo "${{ github.event_path }}"
-          echo '{"tag_name": "${{ github.event.release.tag_name }}",' > details.txt
-          echo '"release_name": "${{ github.event.release.name }}",' >> details.txt
-          echo '"published_date": "${{ github.event.release.published_at }}"}' >> details.txt
-          echo "${{ github.event.release.body }}" > contents.txt
-          echo "$GITHUB_WORKSPACE/main"
-          echo "$GITHUB_WORKSPACE/website"
-          python $GITHUB_WORKSPACE/main/.github/workflows/make_post.py -p $GITHUB_WORKSPACE
+          python $GITHUB_WORKSPACE/main/.github/workflows/make_post.py -p ${{ github.event_path }}
           mv ./*.md $GITHUB_WORKSPACE/website/_posts
 
       - name: Commit post to blog
