@@ -20,10 +20,10 @@ tags:
   - {}
 ---
 
-{{% include remote_versions.html %}}
 {}
 
-Latest Sigil Version {{{{ sigil_ver }}}}
+{}
+
 """
 
 asset_patterns = {
@@ -35,7 +35,10 @@ asset_patterns = {
 
 link = "[{}]({}){{: .btn .btn--success}}<br/>"
 
-def get_asset_urls(assets, tag):
+def rchop(s, sub):
+    return s[:-len(sub)] if s.endswith(sub) else s
+
+def get_asset_links(assets):
     md_links =[]
     for asset in assets:
         for p, t in asset_patterns.items():
@@ -43,6 +46,7 @@ def get_asset_urls(assets, tag):
                 md_links.append(link.format(t, asset['browser_download_url']))
 
     print(md_links)
+    return rchop('\n'.join(md_links), '<br/>')
 
 
 def main(argv):
@@ -64,14 +68,13 @@ def main(argv):
     with codecs.open(path, 'r', 'utf-8') as f:
         j = json.load(f)
     r = j['release']
-    tag = r['tag_name']
     date = parser.parse(r['published_at'])
     title = r['name']
 
     filename = os.path.join('.', date.strftime('%Y-%m-%d') + '-' + title.lower().replace(' ', '-') + '.md')
     print(filename)
-    get_asset_urls(r['assets'], tag)
-    md = POST.format(title, r['published_at'], NAME, r['body'])
+    links = get_asset_links(r['assets'])
+    md = POST.format(title, r['published_at'], links, '<br/>'), NAME, r['body'])
     print(md)
     with codecs.open(filename, 'w', 'utf-8') as f:
         f.write(md)
