@@ -26,10 +26,23 @@ tags:
 Latest Sigil Version {{{{ sigil_ver }}}}
 """
 
+asset_patterns = {
+    'CHECKSUMS.sha256.txt'  : 'CHECKSUMS file',
+    'Windows-Setup.exe'     : 'Windows x86 download',
+    'Windows-x64-Setup.exe' : 'Windows x64 download',
+    'Mac.txz'               : 'MacOS download'
+}
+
+link = "[{}]({}){{: .btn .btn--success}}<br/>"
 
 def get_asset_urls(assets, tag):
-   for asset in assets:
-       print(asset['name'], asset['browser_download_url'])
+    md_links =[]
+    for asset in assets:
+        for p, t in asset_patterns.items():
+            if p in asset['name']:
+                md_links.append(link.format(t, asset['browser_download_url']))
+
+    print(md_links)
 
 
 def main(argv):
