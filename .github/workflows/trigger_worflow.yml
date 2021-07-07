@@ -1,0 +1,18 @@
+name: Trigger Website Update
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remote Update
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: ${{ secrets.ROBO_ACTIONS }}}" \
+            https://api.github.com/repos/Sigil-Ebook/sigil-ebook.github.io/actions/workflows/check_versions.yml/dispatches \
+            -d '{"ref":"master"}'
