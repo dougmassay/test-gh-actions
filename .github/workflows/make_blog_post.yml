@@ -29,14 +29,14 @@ jobs:
           python $GITHUB_WORKSPACE/main/.github/workflows/make_post.py -p ${{ github.event_path }}
           mv ./*.md $GITHUB_WORKSPACE/website/_posts
 
-      - name: Commit post to blog
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          repository: website
-          commit_user_name: My GitHub Actions Bot
-          commit_user_email: my-github-actions-bot@example.org
-          commit_author: Author <actions@github.com>
-          commit_message: Auto create release blog post
-          branch: master
+      #- name: Commit post to blog
+      #  uses: stefanzweifel/git-auto-commit-action@v4
+      #  with:
+      #    repository: website
+      #    commit_user_name: My GitHub Actions Bot
+      #    commit_user_email: my-github-actions-bot@example.org
+      #    commit_author: Author <actions@github.com>
+      #    commit_message: Auto create release blog post
+      #    branch: master
 
   

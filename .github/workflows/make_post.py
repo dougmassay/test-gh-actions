@@ -8,6 +8,8 @@ from dateutil import parser
 
 BAIL = False
 
+NAME = 'Sigil'
+
 POST = """---
 title: {}
 date: {}
@@ -23,6 +25,11 @@ tags:
 
 Latest Sigil Version {{{{ sigil_ver }}}}
 """
+
+
+def get_asset_urls(assets, tag):
+   for asset in assets:
+       print(asset['name'], asset['browser_download_url'])
 
 
 def main(argv):
@@ -44,12 +51,14 @@ def main(argv):
     with codecs.open(path, 'r', 'utf-8') as f:
         j = json.load(f)
     r = j['release']
+    tag = r['tag_name']
     date = parser.parse(r['published_at'])
     title = r['name']
 
     filename = os.path.join('.', date.strftime('%Y-%m-%d') + '-' + title.lower().replace(' ', '-') + '.md')
     print(filename)
-    md = POST.format(title, r['published_at'], 'Sigil', r['body'])
+    get_asset_urls(r['assets'], tag)
+    md = POST.format(title, r['published_at'], NAME, r['body'])
     print(md)
     with codecs.open(filename, 'w', 'utf-8') as f:
         f.write(md)
