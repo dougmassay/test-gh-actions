@@ -1,9 +1,10 @@
 name: Trigger Website Update
 
 on:
-  push:
+  #push:
+  #  branches: [ master ]
+  workflow_dispatch: 
     branches: [ master ]
-
 jobs:
   run:
     runs-on: ubuntu-latest

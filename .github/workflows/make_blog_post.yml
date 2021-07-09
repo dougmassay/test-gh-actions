@@ -38,5 +38,14 @@ jobs:
           commit_author: Author <actions@github.com>
           commit_message: Auto create release blog post
           branch: master
+      
+      - name: Remote Update
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.WEBSITE_SECRET_PAT }}" \
+            https://api.github.com/repos/dougmassay/dougmassay.github.io/actions/workflows/check_versions.yml/dispatches \
+            -d '{"ref":"master"}'
 
   
