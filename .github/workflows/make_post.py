@@ -74,7 +74,7 @@ def main(argv):
     filename = os.path.join('.', date.strftime('%Y-%m-%d') + '-' + title.lower().replace(' ', '-') + '.md')
     print(filename)
     links = get_asset_links(r['assets'])
-    md = POST.format(title, r['published_at'], links, NAME, r['body'])
+    md = POST.format(title, r['published_at'], NAME, links, r['body'])
     print(md)
     with codecs.open(filename, 'w', 'utf-8') as f:
         f.write(md)
