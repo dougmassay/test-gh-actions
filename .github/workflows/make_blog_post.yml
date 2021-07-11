@@ -8,10 +8,14 @@ jobs:
   post:
     runs-on: ubuntu-latest
     steps:
+      - name: Get tag name
+        id: get_tag_name
+        run: echo ::set-output name=TAGNAME::${GITHUB_REF/refs\/tags\//}
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: master
           path: main
 
       - name: Checkout website
@@ -19,7 +23,7 @@ jobs:
         with:
           token: ${{ secrets.WEBSITE_SECRET_PAT }}
           repository: dougmassay/dougmassay.github.io
-          ref: ${{ github.head_ref }}
+          ref: master
           path: website
 
       - name: Get Release details
@@ -36,9 +40,18 @@ jobs:
           commit_user_name: My GitHub Actions Bot
           commit_user_email: my-github-actions-bot@example.org
           commit_author: Author <actions@github.com>
-          commit_message: Auto create release blog post
+          commit_message: Auto create ${{ steps.get_branch_name.outputs.TAGNAME }} release blog post
           branch: master
-      
+
+      - name: Write file
+        run: |
+          cat <<EOT> version.xml
+          <?xml version="1.0" encoding="UTF-8"?>
+          <information>
+              <current-version>${{ steps.get_branch_name.outputs.TAGNAME }}</current-version>
+          </information>
+          EOT
+
       - name: Remote Update
         run: |
           curl \
@@ -48,4 +61,12 @@ jobs:
             https://api.github.com/repos/dougmassay/dougmassay.github.io/actions/workflows/check_versions.yml/dispatches \
             -d '{"ref":"master"}'
 
-  
+      - name: Update Sigil version.xml
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          repository: main
+          commit_user_name: My GitHub Actions Bot
+          commit_user_email: my-github-actions-bot@example.org
+          commit_author: Author <actions@github.com>
+          commit_message: Update version.xml ${{ steps.get_branch_name.outputs.TAGNAME }}
+          branch: master  
