@@ -14,11 +14,13 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - name: Test File Write
+      - name: Get Branch Name
         if: startswith( github.ref, 'refs/heads/')
         id: get_branch_name
+        run: echo ::set-output name=BRANCHNAME::${GITHUB_REF/refs\/heads\//}
+
+      - name: Write file
         run: |
-          echo ::set-output name=BRANCHNAME::${GITHUB_REF/refs\/heads\//}
           cat <<EOT> version.xml
           <?xml version="1.0" encoding="UTF-8"?>
           <information>
