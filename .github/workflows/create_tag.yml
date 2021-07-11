@@ -36,7 +36,7 @@ jobs:
       if: "contains(github.event.head_commit.message, '[tag:') && github.event_name != 'pull_request'"
       run: |
         msg="${{ github.event.head_commit.message }}"
-        echo ::set-output name=tag_name::${echo $msg | sed 's/.*\[tag: *\([0-9]*\.[0-9]*\.[0-9]*\)/\1/g'}
+        echo ::set-output name=tag_name::"${echo $msg | sed 's/.*\[tag: *\([0-9]*\.[0-9]*\.[0-9]*\)/\1/g'}"
 
     - name: Show Tag Name
       run: |
