@@ -1,31 +1,8 @@
 name: Create Signed Tag
 
 on:
-  push:
-    branches: [ master ]
-    tags-ignore:
-      - '**'
-    paths-ignore:
-    - 'docs/**'
-    - 'installer/win_installer_note.txt'
-    - 'ChangeLog.txt'
-    - 'COPYING.txt'
-    - 'version.xml'
-    - '.retired_travis.yml'
-    - '**/**.md'
-
-  pull_request:
-    branches: [ master ]
-    tags-ignore:
-      - '**'
-    paths-ignore:
-    - 'docs/**'
-    - 'installer/win_installer_note.txt'
-    - 'ChangeLog.txt'
-    - 'COPYING.txt'
-    - 'version.xml'
-    - '.retired_travis.yml'
-    - '**/**.md'
+  workflow_dispatch: 
+    branches: master
 
 jobs:
   build:
@@ -33,6 +10,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.WEBSITE_SECRET_PAT }}
 
     - name: Get Tag Name
       id: get_tag_name

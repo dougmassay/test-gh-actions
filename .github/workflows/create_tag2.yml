@@ -1,0 +1,34 @@
+name: Create Signed Tag Manually
+
+on:
+  workflow_dispatch: 
+    branches: master
+    inputs:
+      tag_name:
+        description: 'Tag name to create'
+        required: true
+        default: ''
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.WEBSITE_SECRET_PAT }}
+
+    - name: GPG Import
+      if: ${{ github.event.inputs.tag_name != '' }}
+      uses: crazy-max/ghaction-import-gpg@v3
+      with:
+        gpg-private-key: ${{ secrets.SIGNING_BONUS_TAGS }}
+        passphrase: ${{ secrets.SIGNING_BONUS_PHRASE }}
+        git-user-signingkey: true
+        git-tag-gpgsign: true
+
+    - name: Sign and Push Tag
+      if: ${{ github.event.inputs.tag_name != '' }}
+      run: |
+        git tag -s ${{ github.event.inputs.tag_name }} -m 'Tag for Sigil-${{ github.event.inputs.tag_name }} release'
+        git push origin ${{ github.event.inputs.tag_name }}
