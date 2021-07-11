@@ -12,10 +12,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref }}
 
       - name: Test File Write
-        if: startswith( github.head_ref, 'refs/heads/')
+        if: startswith( github.ref, 'refs/heads/')
         id: get_branch_name
         run: |
           echo ::set-output name=BRANCHNAME::${GITHUB_REF/refs\/heads\//}
@@ -33,7 +33,7 @@ jobs:
           commit_user_email: my-github-actions-bot@example.org
           commit_author: Author <actions@github.com>
           commit_message: Auto create release blog post
-          branch: ${{ github.head_ref }}
+          branch: ${{ github.ref }}
 
 
       #- name: Remote Update
