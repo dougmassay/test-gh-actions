@@ -18,8 +18,17 @@ jobs:
       with:
         token: ${{ secrets.WEBSITE_SECRET_PAT }}
 
-    - name: GPG Import
+    - name: Check Tag Name
+      id: check_tag_name
       if: ${{ github.event.inputs.tag_name != '' }}
+      uses: actions-ecosystem/action-regex-match@v2
+      with:
+        text: ${{ github.event.inputs.tag_name }}
+        regex: '^\d+\.\d+\.\d+$)'
+      
+
+    - name: GPG Import
+      if: ${{ steps.check_tag_name.outputs.match != '' }}
       uses: crazy-max/ghaction-import-gpg@v3
       with:
         gpg-private-key: ${{ secrets.SIGNING_BONUS_TAGS }}
@@ -28,7 +37,7 @@ jobs:
         git-tag-gpgsign: true
 
     - name: Sign and Push Tag
-      if: ${{ github.event.inputs.tag_name != '' }}
+      if: ${{ steps.check_tag_name.outputs.match != '' }}
       run: |
         git tag -s ${{ github.event.inputs.tag_name }} -m 'Tag for Sigil-${{ github.event.inputs.tag_name }} release'
         git push origin ${{ github.event.inputs.tag_name }}
