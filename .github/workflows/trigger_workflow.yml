@@ -19,7 +19,7 @@ jobs:
         id: get_branch_name
         run: |
           echo ::set-output name=BRANCHNAME::${GITHUB_REF/refs\/heads\//}
-          cat <<EOT>> version.xml
+          cat <<EOT> version.xml
           <?xml version="1.0" encoding="UTF-8"?>
           <information>
               <current-version>${{ steps.get_branch_name.outputs.BRANCHNAME }}</current-version>
