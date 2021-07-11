@@ -68,5 +68,5 @@ jobs:
           commit_user_name: My GitHub Actions Bot
           commit_user_email: my-github-actions-bot@example.org
           commit_author: Author <actions@github.com>
-          commit_message: Update version.xml ${{ steps.get_branch_name.outputs.TAGNAME }}
+          commit_message: Update version.xml to ${{ steps.get_tag_name.outputs.TAGNAME }}
           branch: master  
