@@ -32,12 +32,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Get Tag Name
-      id: get_tag_name
       if: "contains(github.event.head_commit.message, '[tag:') && github.event_name != 'pull_request'"
-      run: |
-        msg="${{ github.event.head_commit.message }}"
-        echo ::set-output name=tag_name::"${echo $msg | sed 's/.*\[tag: *\([0-9]*\.[0-9]*\.[0-9]*\)/\1/g'}"
+    - uses: actions-ecosystem/action-regex-match@v2
+      id: get_tag_name
+      with:
+        text: ${{ github.event.head_commit.message }}
+        regex: '.*\[tag:.*(d+\.d+\.d+).*\]'
 
     - name: Show Tag Name
       run: |
-        echo ${{ steps.get_tag_name.outputs.tag_name }}
+        echo ${{ steps.get_tag_name.outputs.group1 }}
