@@ -24,7 +24,7 @@ jobs:
       uses: actions-ecosystem/action-regex-match@v2
       with:
         text: ${{ github.event.inputs.tag_name }}
-        regex: '^\d+\.\d+\.\d+$)'
+        regex: '^\d+\.\d+\.\d+$'
       
 
     - name: GPG Import
