@@ -40,17 +40,8 @@ jobs:
           commit_user_name: My GitHub Actions Bot
           commit_user_email: my-github-actions-bot@example.org
           commit_author: Author <actions@github.com>
-          commit_message: Auto create ${{ steps.get_branch_name.outputs.TAGNAME }} release blog post
+          commit_message: Auto create ${{ steps.get_tag_name.outputs.TAGNAME }} release blog post
           branch: master
-
-      - name: Write file
-        run: |
-          cat <<EOT> version.xml
-          <?xml version="1.0" encoding="UTF-8"?>
-          <information>
-              <current-version>${{ steps.get_branch_name.outputs.TAGNAME }}</current-version>
-          </information>
-          EOT
 
       - name: Remote Update
         run: |
@@ -60,6 +51,15 @@ jobs:
             -H "Authorization: token ${{ secrets.WEBSITE_SECRET_PAT }}" \
             https://api.github.com/repos/dougmassay/dougmassay.github.io/actions/workflows/check_versions.yml/dispatches \
             -d '{"ref":"master"}'
+
+      - name: Write file
+        run: |
+          cat <<EOT> $GITHUB_WORKSPACE/main/version.xml
+          <?xml version="1.0" encoding="UTF-8"?>
+          <information>
+              <current-version>${{ steps.get_tag_name.outputs.TAGNAME }}</current-version>
+          </information>
+          EOT
 
       - name: Update Sigil version.xml
         uses: stefanzweifel/git-auto-commit-action@v4
