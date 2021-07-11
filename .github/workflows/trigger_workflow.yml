@@ -9,11 +9,38 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Remote Update
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Test File Write
+        if: startswith( github.head_ref, 'refs/heads/')
+        id: get_branch_name
         run: |
-          curl \
-            -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.WEBSITE_SECRET_PAT }}" \
-            https://api.github.com/repos/dougmassay/dougmassay.github.io/actions/workflows/check_versions.yml/dispatches \
-            -d '{"ref":"master"}'
+          echo ::set-output name=BRANCHNAME::${GITHUB_REF/refs\/heads\//}
+          cat <<EOT>> version.xml
+          <?xml version="1.0" encoding="UTF-8"?>
+          <information>
+              <current-version>${{ steps.get_branch_name.outputs.BRANCHNAME }}</current-version>
+          </information>
+          EOT
+
+      - name: Commit file to repo
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_user_name: My GitHub Actions Bot
+          commit_user_email: my-github-actions-bot@example.org
+          commit_author: Author <actions@github.com>
+          commit_message: Auto create release blog post
+          branch: ${{ github.head_ref }}
+
+
+      #- name: Remote Update
+      #  run: |
+      #    curl \
+      #      -X POST \
+      #      -H "Accept: application/vnd.github.v3+json" \
+      #      -H "Authorization: token ${{ secrets.WEBSITE_SECRET_PAT }}" \
+      #      https://api.github.com/repos/dougmassay/dougmassay.github.io/actions/workflows/check_versions.yml/dispatches \
+      #      -d '{"ref":"master"}'
