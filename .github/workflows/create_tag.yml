@@ -39,4 +39,5 @@ jobs:
         echo ::set-output name=tag_name::${echo "$msg" | sed -e 's/\[tag:.*(\d+\.\d+\.\d+).*/$1/g'}
 
     - name: Show Tag Name
+      run: |
         echo ${{ steps.get_tag_name.outputs.tag_name }}
