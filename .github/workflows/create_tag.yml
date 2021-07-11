@@ -43,7 +43,7 @@ jobs:
         regex: '.*\[tag:.*(\d+\.\d+\.\d+).*\]'
         flags: i
 
-    - name: Show Tag Name
+    - name: GPG Import
       if: ${{ steps.get_tag_name.outputs.group1 != '' }}
       uses: crazy-max/ghaction-import-gpg@v3
       with:
