@@ -42,4 +42,6 @@ jobs:
         git tag -s ${{ github.event.inputs.tag_name }} -m 'Tag for Sigil-${{ github.event.inputs.tag_name }} release'
         git push origin ${{ github.event.inputs.tag_name }}
         gpg --detach-sign --pinentry-mode loopback --passphrase ${{ secrets.SIGNING_BONUS_PHRASE }} version.xml
+        PREFIX="${$(basename $(pwd))}-${{steps.check_tag_name.outputs.match}}#v/"
+        echo "$PREFIX"
         git archive --prefix=${$(basename "$(pwd)")}-${{steps.check_tag_name.outputs.match}}#v/ -o ${$(basename "$(pwd)")}-${{steps.check_tag_name.outputs.match}}#v.tar.gz ${{steps.check_tag_name.outputs.match}}
