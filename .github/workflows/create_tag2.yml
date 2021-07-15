@@ -37,6 +37,7 @@ jobs:
         git-tag-gpgsign: true
 
     - name: Sign and Push Tag
+      id: create_archive
       if: ${{ steps.check_tag_name.outputs.match != '' }}
       run: |
         git tag -s ${{ github.event.inputs.tag_name }} -m 'Tag for Sigil-${{ github.event.inputs.tag_name }} release'
@@ -44,7 +45,7 @@ jobs:
         REPO=$(basename "$(pwd)")
         TAG=${{ github.event.inputs.tag_name }}
         FNAME=${REPO}-${TAG#v}.tar.gz
-        echo "$FNAME" >> $GITHUB_ENV
+        echo "::set-output name=fname::$FNAME"
         git archive --prefix=${REPO}-${TAG#v}/ -o ${FNAME} ${TAG}
         gpg --detach-sign --pinentry-mode loopback --passphrase ${{ secrets.SIGNING_BONUS_PHRASE }} ${FNAME}
 
@@ -59,4 +60,4 @@ jobs:
           - Second Change
         draft: true
         prerelease: false
-        artifacts: "./$FNAME,./$FNAME.sig"
+        artifacts: "./${{ steps.create_archive.outputs.fname }},./${{ steps.create_archive.outputs.fname }}.sig"
