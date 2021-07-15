@@ -54,6 +54,7 @@ jobs:
       with:
         token: ${{ secrets.WEBSITE_SECRET_PAT }}
         name: Test ${{ github.event.inputs.tag_name }} Released
+        tag: ${{ github.event.inputs.tag_name }}
         body: |
           Changes in this Release
           - First Change
