@@ -49,14 +49,14 @@ jobs:
         gpg --detach-sign --pinentry-mode loopback --passphrase ${{ secrets.SIGNING_BONUS_PHRASE }} ${FNAME}
 
     - name: Create Release
-        uses: ncipollo/release-action@v1
-        with:
-          token: ${{ secrets.WEBSITE_SECRET_PAT }}
-          name: Test ${{ github.event.inputs.tag_name }} Released
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
-          draft: true
-          prerelease: false
-          artifacts: "./$FNAME,./$FNAME.sig"
+      uses: ncipollo/release-action@v1
+      with:
+        token: ${{ secrets.WEBSITE_SECRET_PAT }}
+        name: Test ${{ github.event.inputs.tag_name }} Released
+        body: |
+          Changes in this Release
+          - First Change
+          - Second Change
+        draft: true
+        prerelease: false
+        artifacts: "./$FNAME,./$FNAME.sig"
