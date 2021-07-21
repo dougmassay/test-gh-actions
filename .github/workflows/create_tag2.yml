@@ -44,7 +44,7 @@ jobs:
         git push origin ${{ github.event.inputs.tag_name }}
         REPO=$(basename "$(pwd)")
         TAG=${{ github.event.inputs.tag_name }}
-        FNAME=${REPO}-${TAG#v}
+        FNAME=${REPO}-${TAG}
         echo "::set-output name=fname::$FNAME"
         URL="https://github.com/$GITHUB_REPOSITORY/archive/refs/tags/${{ github.event.inputs.tag_name }}.zip"
         curl -o ${FNAME}.zip ${URL} 
