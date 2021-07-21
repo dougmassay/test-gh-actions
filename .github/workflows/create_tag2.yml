@@ -51,7 +51,7 @@ jobs:
         git archive --prefix=${REPO}-${TAG#v}/ -o ${FNAME}.tar.gz ${TAG}
         gpg --detach-sign --pinentry-mode loopback --passphrase ${{ secrets.SIGNING_BONUS_PHRASE }} ${FNAME}.tar.gz
         echo "$URL"
-        curl -o ${FNAME}.zip ${URL}
+        curl -Lo ${FNAME}.zip ${URL}
         gpg --detach-sign --pinentry-mode loopback --passphrase ${{ secrets.SIGNING_BONUS_PHRASE }} ${FNAME}.zip
 
     - name: Create Release
