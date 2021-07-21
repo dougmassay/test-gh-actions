@@ -59,7 +59,7 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         token: ${{ secrets.WEBSITE_SECRET_PAT }}
-        name: Test ${{ github.event.inputs.tag_name }} Released
+        name: Test-${{ github.event.inputs.tag_name }}
         tag: ${{ github.event.inputs.tag_name }}
         body: |
           Changes in this Release
