@@ -49,8 +49,9 @@ jobs:
         URL="https://github.com/$GITHUB_REPOSITORY/archive/refs/tags/${{ github.event.inputs.tag_name }}.zip"
         git archive --prefix=${REPO}-${TAG#v}/ -o ${FNAME}.tar.gz ${TAG}
         gpg --detach-sign --pinentry-mode loopback --passphrase ${{ secrets.SIGNING_BONUS_PHRASE }} ${FNAME}.tar.gz
+        sleep 30
         echo "$URL"
-        curl -O -J ${URL}
+        curl -o ${FNAME}.zip ${URL}
         gpg --detach-sign --pinentry-mode loopback --passphrase ${{ secrets.SIGNING_BONUS_PHRASE }} ${FNAME}.zip
 
     - name: Create Release
